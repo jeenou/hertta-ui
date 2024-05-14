@@ -1,38 +1,40 @@
+/* App.css should only contain styles related to the layout of the App component */
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app-container {
+  display: flex; /* Establish a flex container */
+  height: 100vh; /* Take up the full viewport height */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.left-side, .right-side, .middle-section {
+  flex: 1; /* Each section takes up an equal width of the container */
+  padding: 20px; /* Add some spacing inside each section */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.middle-section {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.middle-section pre {
+  background-color: #f4f4f4;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 600px;
+  overflow-x: auto;
+  text-align: left; /* Ensures text alignment is correct */
+}
+
+/* The App-header class seems to be part of a different layout system. 
+If you're not using it, it should be removed or updated accordingly. */
+.App-header {
+  background-color: #282c34;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

@@ -1,49 +1,51 @@
+// src/DeviceDataForm.js
+
 import React, { useState } from 'react';
-import './DeviceDataForm.css';  // Make sure this CSS is being imported
+import './DeviceDataForm.css';
+import ElectricHeaterForm from './ElectricHeaterForm';
+import InteriorAirSensorForm from './InteriorAirSensorForm';
 
-function DeviceDataForm() {
-    const [deviceData, setDeviceData] = useState({
-        deviceId: '',
-        deviceType: '',
-        status: '',
-        location: ''
-    });
+function DeviceDataForm({ setElectricHeaters, setInteriorAirSensors }) {
+  const [electricHeaters, setLocalElectricHeaters] = useState([]);
+  const [interiorAirSensors, setLocalInteriorAirSensors] = useState([]);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setDeviceData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
+  const addElectricHeater = (heater) => {
+    const updatedHeaters = [...electricHeaters, heater];
+    setLocalElectricHeaters(updatedHeaters);
+    setElectricHeaters(updatedHeaters);
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log('Sending data:', deviceData);
-        // Implementation of data sending to backend remains unchanged
-    };
+  const addInteriorAirSensor = (sensor) => {
+    const updatedSensors = [...interiorAirSensors, sensor];
+    setLocalInteriorAirSensors(updatedSensors);
+    setInteriorAirSensors(updatedSensors);
+  };
 
-    return (
-        <form onSubmit={handleSubmit} className="device-form">
-            <div className="input-group">
-                <label>Device ID:</label>
-                <input type="text" name="deviceId" value={deviceData.deviceId} onChange={handleInputChange} />
-            </div>
-            <div className="input-group">
-                <label>Device Type:</label>
-                <input type="text" name="deviceType" value={deviceData.deviceType} onChange={handleInputChange} />
-            </div>
-            <div className="input-group">
-                <label>Status:</label>
-                <input type="text" name="status" value={deviceData.status} onChange={handleInputChange} />
-            </div>
-            <div className="input-group">
-                <label>Location:</label>
-                <input type="text" name="location" value={deviceData.location} onChange={handleInputChange} />
-            </div>
-            <button type="submit">Send</button>
-        </form>
-    );
+  return (
+    <div>
+      <h3>Add Electric Heater</h3>
+      <ElectricHeaterForm addElectricHeater={addElectricHeater} />
+      <h3>Added Electric Heaters</h3>
+      <ul>
+        {electricHeaters.map((heater, index) => (
+          <li key={index}>
+            ID: {heater.id}, Capacity: {heater.capacity}
+          </li>
+        ))}
+      </ul>
+
+      <h3>Add Interior Air Sensor</h3>
+      <InteriorAirSensorForm addInteriorAirSensor={addInteriorAirSensor} />
+      <h3>Added Interior Air Sensors</h3>
+      <ul>
+        {interiorAirSensors.map((sensor, index) => (
+          <li key={index}>
+            Sensor ID: {sensor.sensorId}, Room ID: {sensor.roomId}, Max Temp: {sensor.maxTemp - 273.15}°C, Min Temp: {sensor.minTemp - 273.15}°C
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 export default DeviceDataForm;
