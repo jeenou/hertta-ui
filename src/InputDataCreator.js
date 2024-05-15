@@ -3,6 +3,8 @@
 import React from 'react';
 import yaml from 'js-yaml';
 import Input_SetupData from './Input_SetupData';
+import generateProcessesData from './Input_Processes';
+import generateNodesData from './Input_Nodes';
 
 function InputDataCreator({ setYamlContent, electricHeaters, interiorAirSensors }) {
   const handleGenerateYAML = () => {
@@ -41,105 +43,8 @@ function InputDataCreator({ setYamlContent, electricHeaters, interiorAirSensors 
     };
 
     const setupData = Input_SetupData();
-
-    const processesData = electricHeaters.length > 0 ? {
-      processes: electricHeaters.reduce((acc, heater) => {
-        acc[heater.id] = {
-          name: heater.id,
-          groups: ["p1"],
-          conversion: 1,
-          is_cf: false,
-          is_cf_fix: false,
-          is_online: false,
-          is_res: false,
-          eff: 1.0,
-          load_min: 0.0,
-          load_max: 1.0,
-          start_cost: 0.0,
-          min_online: 0.0,
-          min_offline: 0.0,
-          max_online: 0.0,
-          max_offline: 0.0,
-          initial_state: 0.0,
-          is_scenario_independent: false,
-          topos: [
-            {
-              source: "electricitygrid",
-              sink: heater.id,
-              capacity: heater.capacity,
-              vom_cost: 0.0,
-              ramp_up: 1.0,
-              ramp_down: 1.0,
-              initial_load: 0.0,
-              initial_flow: 0.0,
-              cap_ts: {
-                ts_data: []
-              }
-            },
-            {
-              source: heater.id,
-              sink: "interiorair",
-              capacity: heater.capacity,
-              vom_cost: 0.0,
-              ramp_up: 1.0,
-              ramp_down: 1.0,
-              initial_load: 0.0,
-              initial_flow: 0.0,
-              cap_ts: {
-                ts_data: []
-              }
-            }
-          ],
-          cf: {
-            ts_data: []
-          },
-          eff_ts: {
-            ts_data: []
-          },
-          eff_ops: [],
-          eff_fun: []
-        };
-        return acc;
-      }, {})
-    } : {};
-
-    const nodesData = interiorAirSensors.length > 0 ? {
-      nodes: interiorAirSensors.reduce((acc, sensor) => {
-        acc[sensor.sensorId] = {
-          name: sensor.sensorId,
-          is_commodity: false,
-          is_state: true,
-          is_res: false,
-          is_market: false,
-          is_inflow: false,
-          state: {
-            in_max: 1e+10,
-            out_max: 1e+10,
-            state_loss_proportional: 0.0,
-            state_max: sensor.maxTemp,
-            state_min: sensor.minTemp,
-            initial_state: 296.15,
-            is_scenario_independent: false,
-            is_temp: true,
-            t_e_conversion: 0.5,
-            residual_value: 0.0
-          },
-          cost: {
-            ts_data: [
-              { scenario: "s1", series: [] },
-              { scenario: "s2", series: [] }
-            ]
-          },
-          inflow: {
-            ts_data: [
-              { scenario: "s1", series: [] },
-              { scenario: "s2", series: [] }
-            ]
-          }
-        };
-        return acc;
-      }, {})
-    } : {};
+    const processesData = electricHeaters.length > 0 ? { processes: generateProcessesData(electricHeaters) } : {};
+    const nodesData = { nodes: generateNodesData(interiorAirSensors) };
 
     const combinedData = {
       ...temporalsData,

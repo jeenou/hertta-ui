@@ -1,25 +1,22 @@
+// src/App.js
+
 import React, { useState, useEffect } from 'react';
-import './global.css'; // Import global styles first
-import './App.css'; // Then import App-specific styles
+import './global.css';
+import './App.css';
 import DeviceDataForm from './DeviceDataForm';
 import DeviceControl from './DeviceControl';
 import InputDataCreator from './InputDataCreator';
+import Input_Room from './Input_Room';
 
 function App() {
-  // State to hold the device controls data
   const [deviceControls, setDeviceControls] = useState([]);
-  // State to hold the generated YAML content
   const [yamlContent, setYamlContent] = useState('');
-  // State to hold the electric heaters data
   const [electricHeaters, setElectricHeaters] = useState([]);
-  // State to hold the interior air sensors data
   const [interiorAirSensors, setInteriorAirSensors] = useState([]);
 
-  // Fetch the device control data from the backend when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Replace with your actual API endpoint
         const response = await fetch('http://your-backend-endpoint/api/device-controls');
         const data = await response.json();
         setDeviceControls(data);
@@ -31,12 +28,16 @@ function App() {
     fetchData();
   }, []);
 
+  const addInteriorAirSensor = (sensor) => {
+    setInteriorAirSensors((prevSensors) => [...prevSensors, sensor]);
+  };
+
   return (
     <div className="App">
       <div className="app-container">
         <div className="left-side">
           <h1>Device Data Entry</h1>
-          <DeviceDataForm setElectricHeaters={setElectricHeaters} setInteriorAirSensors={setInteriorAirSensors} />
+          <DeviceDataForm setElectricHeaters={setElectricHeaters} setInteriorAirSensors={setInteriorAirSensors} addInteriorAirSensor={addInteriorAirSensor} />
         </div>
         <div className="middle-section">
           <InputDataCreator setYamlContent={setYamlContent} electricHeaters={electricHeaters} interiorAirSensors={interiorAirSensors} />
