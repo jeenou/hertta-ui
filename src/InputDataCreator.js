@@ -3,8 +3,12 @@
 import React from 'react';
 import yaml from 'js-yaml';
 import Input_SetupData from './Input_SetupData';
-import generateProcessesData from './Input_Processes';
 import generateNodesData from './Input_Nodes';
+import generateNodeDiffusions from './Input_NodeDiffusion';
+import generateMarketData from './Input_Markets';
+import generateGroupsData from './Input_Groups';
+import generateScenariosData from './Input_Scenarios';
+import generateRiskData from './Input_Risk';
 
 function InputDataCreator({ setYamlContent, electricHeaters, interiorAirSensors }) {
   const handleGenerateYAML = () => {
@@ -43,14 +47,31 @@ function InputDataCreator({ setYamlContent, electricHeaters, interiorAirSensors 
     };
 
     const setupData = Input_SetupData();
-    const processesData = electricHeaters.length > 0 ? { processes: generateProcessesData(electricHeaters) } : {};
     const nodesData = { nodes: generateNodesData(interiorAirSensors) };
+    const nodeDiffusionsData = { node_diffusion: generateNodeDiffusions(interiorAirSensors) };
+    const marketData = generateMarketData();
+    const groupsData = generateGroupsData(electricHeaters);
+    const scenariosData = generateScenariosData();
+    const riskData = generateRiskData();
+
+    const reserveType = { reserve_type: {} };
+    const nodeDelay = { node_delay: {} };
+    const nodeHistories = { node_histories: {} };
+    const inflowBlocks = { inflow_blocks: {} };
 
     const combinedData = {
       ...temporalsData,
       ...setupData,
-      ...processesData,
-      ...nodesData
+      ...nodesData,
+      ...nodeDiffusionsData,
+      ...marketData,
+      ...groupsData,
+      ...scenariosData,
+      ...riskData,
+      ...reserveType,
+      ...nodeDelay,
+      ...nodeHistories,
+      ...inflowBlocks
     };
 
     const yamlStr = yaml.dump(combinedData);

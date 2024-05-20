@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import './DeviceDataForm.css';
 import ElectricHeaterForm from './ElectricHeaterForm';
-import Input_Room from './Input_Room';
+import InputRoom from './InputRoom';
 
 function DeviceDataForm({ setElectricHeaters, setInteriorAirSensors }) {
   const [electricHeaters, setLocalElectricHeaters] = useState([]);
@@ -35,7 +35,7 @@ function DeviceDataForm({ setElectricHeaters, setInteriorAirSensors }) {
       </ul>
 
       <h3>Add Interior Air Sensor and Room</h3>
-      <Input_Room addInteriorAirSensor={addInteriorAirSensor} />
+      <InputRoom addInteriorAirSensor={addInteriorAirSensor} />
       <h3>Added Interior Air Sensors</h3>
       <ul>
         {interiorAirSensors.map((sensor, index) => (

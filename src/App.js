@@ -6,7 +6,7 @@ import './App.css';
 import DeviceDataForm from './DeviceDataForm';
 import DeviceControl from './DeviceControl';
 import InputDataCreator from './InputDataCreator';
-import Input_Room from './Input_Room';
+import NetworkGraph from './NetworkGraph';
 
 function App() {
   const [deviceControls, setDeviceControls] = useState([]);
@@ -28,16 +28,12 @@ function App() {
     fetchData();
   }, []);
 
-  const addInteriorAirSensor = (sensor) => {
-    setInteriorAirSensors((prevSensors) => [...prevSensors, sensor]);
-  };
-
   return (
     <div className="App">
       <div className="app-container">
         <div className="left-side">
           <h1>Device Data Entry</h1>
-          <DeviceDataForm setElectricHeaters={setElectricHeaters} setInteriorAirSensors={setInteriorAirSensors} addInteriorAirSensor={addInteriorAirSensor} />
+          <DeviceDataForm setElectricHeaters={setElectricHeaters} setInteriorAirSensors={setInteriorAirSensors} />
         </div>
         <div className="middle-section">
           <InputDataCreator setYamlContent={setYamlContent} electricHeaters={electricHeaters} interiorAirSensors={interiorAirSensors} />
@@ -50,6 +46,11 @@ function App() {
         </div>
         <div className="right-side">
           <DeviceControl deviceControls={deviceControls} />
+          {yamlContent && (
+            <div className="diagram-section">
+              <NetworkGraph yamlContent={yamlContent} />
+            </div>
+          )}
         </div>
       </div>
     </div>
