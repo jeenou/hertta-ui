@@ -1,19 +1,30 @@
-// src/Input_Room.js
+// src/InputRoom.js
 
 import React, { useState } from 'react';
 
-function Input_Room({ addInteriorAirSensor }) {
+const materialProperties = {
+  "Stone Wall": 0.025,
+  // Add more materials here as needed
+};
+
+function InputRoom({ addInteriorAirSensor }) {
   const [sensorId, setSensorId] = useState('');
   const [roomId, setRoomId] = useState('');
   const [roomWidth, setRoomWidth] = useState('');
   const [roomLength, setRoomLength] = useState('');
   const [maxTemp, setMaxTemp] = useState('');
   const [minTemp, setMinTemp] = useState('');
+  const [material, setMaterial] = useState('Stone Wall');
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Convert Celsius to Kelvin
+    const floorArea = parseFloat(roomWidth) * parseFloat(roomLength);
+    const specCapEnv = materialProperties[material];
+    const t_e_conversion_env = floorArea * specCapEnv;
+    const specCapInt = 0.00278; // Constant value for internal specific heat capacity
+    const t_e_conversion_int = floorArea * specCapInt;
+
     const maxTempK = parseFloat(maxTemp) + 273.15;
     const minTempK = parseFloat(minTemp) + 273.15;
 
@@ -23,7 +34,9 @@ function Input_Room({ addInteriorAirSensor }) {
       roomWidth,
       roomLength,
       maxTemp: maxTempK,
-      minTemp: minTempK
+      minTemp: minTempK,
+      t_e_conversion_env,
+      t_e_conversion_int
     });
 
     setSensorId('');
@@ -94,9 +107,17 @@ function Input_Room({ addInteriorAirSensor }) {
           required
         />
       </div>
+      <div className="input-group">
+        <label>Material:</label>
+        <select value={material} onChange={(e) => setMaterial(e.target.value)} required>
+          {Object.keys(materialProperties).map((materialName, index) => (
+            <option key={index} value={materialName}>{materialName}</option>
+          ))}
+        </select>
+      </div>
       <button type="submit">Add Interior Air Sensor</button>
     </form>
   );
 }
 
-export default Input_Room;
+export default InputRoom;

@@ -1,5 +1,7 @@
 // src/InteriorAirSensorForm.js
 
+/*
+
 import React, { useState } from 'react';
 
 function InteriorAirSensorForm({ addInteriorAirSensor }) {
@@ -74,3 +76,5 @@ function InteriorAirSensorForm({ addInteriorAirSensor }) {
 }
 
 export default InteriorAirSensorForm;
+
+*/

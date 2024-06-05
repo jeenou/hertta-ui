@@ -1,17 +1,16 @@
-// src/InputDataCreator.js
-
 import React from 'react';
-import yaml from 'js-yaml';
 import Input_SetupData from './Input_SetupData';
+import generateProcessesData from './Input_Processes';
 import generateNodesData from './Input_Nodes';
 import generateNodeDiffusions from './Input_NodeDiffusion';
 import generateMarketData from './Input_Markets';
 import generateGroupsData from './Input_Groups';
 import generateScenariosData from './Input_Scenarios';
 import generateRiskData from './Input_Risk';
+import generateGenConstraintsData from './Input_GenConstraints';
 
-function InputDataCreator({ setYamlContent, electricHeaters, interiorAirSensors }) {
-  const handleGenerateYAML = () => {
+function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors, sendJsonData }) {
+  const handleGenerateJSON = () => {
     const startDate = new Date();
     let startHour = startDate.getHours();
     const currentMinutes = startDate.getMinutes();
@@ -47,12 +46,14 @@ function InputDataCreator({ setYamlContent, electricHeaters, interiorAirSensors 
     };
 
     const setupData = Input_SetupData();
+    const processesData = electricHeaters.length > 0 ? { processes: generateProcessesData(electricHeaters) } : {};
     const nodesData = { nodes: generateNodesData(interiorAirSensors) };
     const nodeDiffusionsData = { node_diffusion: generateNodeDiffusions(interiorAirSensors) };
     const marketData = generateMarketData();
     const groupsData = generateGroupsData(electricHeaters);
     const scenariosData = generateScenariosData();
     const riskData = generateRiskData();
+    const genConstraintsData = generateGenConstraintsData(interiorAirSensors);
 
     const reserveType = { reserve_type: {} };
     const nodeDelay = { node_delay: {} };
@@ -62,26 +63,35 @@ function InputDataCreator({ setYamlContent, electricHeaters, interiorAirSensors 
     const combinedData = {
       ...temporalsData,
       ...setupData,
+      ...processesData,
       ...nodesData,
       ...nodeDiffusionsData,
       ...marketData,
       ...groupsData,
       ...scenariosData,
       ...riskData,
+      ...genConstraintsData,
       ...reserveType,
       ...nodeDelay,
       ...nodeHistories,
       ...inflowBlocks
     };
 
-    const yamlStr = yaml.dump(combinedData);
-    setYamlContent(yamlStr);
+    const jsonStr = JSON.stringify(combinedData, null, 2);
+    setJsonContent(jsonStr); // Set the JSON stringified version of the combinedData
+  };
+
+  const handleSendData = () => {
+    if (sendJsonData) {
+      sendJsonData();
+    }
   };
 
   return (
     <div>
-      <h1>YAML Generator</h1>
-      <button onClick={handleGenerateYAML}>Generate YAML</button>
+      <h1>JSON Generator</h1>
+      <button onClick={handleGenerateJSON}>Generate JSON</button>
+      <button onClick={handleSendData}>Send Data</button>
     </div>
   );
 }
