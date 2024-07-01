@@ -1,10 +1,14 @@
+// src/App.js
+
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './global.css';
 import './App.css';
 import DeviceDataForm from './DeviceDataForm';
-import DeviceControl from './DeviceControl';
+import DataTable from './DataTable';
 import InputDataCreator from './InputDataCreator';
-import InputDataSender from './InputDataSender'; // Import the sender component
+import InputDataSender from './InputDataSender';
+import Layout from './Layout';
 
 function App() {
   const [jsonContent, setJsonContent] = useState({});
@@ -15,35 +19,55 @@ function App() {
     setJsonContent(jsonObj);
   };
 
+  const deleteHeater = (id) => {
+    const updatedHeaters = electricHeaters.filter(heater => heater.id !== id);
+    setElectricHeaters(updatedHeaters);
+  };
+
+  const deleteSensor = (id) => {
+    const updatedSensors = interiorAirSensors.filter(sensor => sensor.sensorId !== id);
+    setInteriorAirSensors(updatedSensors);
+  };
+
   return (
-    <div className="App">
-      <div className="app-container">
-        <div className="left-side">
-          <h1>Device Data Entry</h1>
-          <DeviceDataForm setElectricHeaters={setElectricHeaters} setInteriorAirSensors={setInteriorAirSensors} />
-        </div>
-        <div className="middle-section">
-          {/* Use InputDataCreator component */}
-          <InputDataCreator
-            setJsonContent={handleJsonContentChange}
-            electricHeaters={electricHeaters}
-            interiorAirSensors={interiorAirSensors}
-          />
-          {/* Display JSON content if available */}
-          {jsonContent && (
-            <div>
-              <h2>Generated JSON:</h2>
-              <pre>{JSON.stringify(jsonContent, null, 2)}</pre>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={
+            <div className="app-container">
+              <div className="left-side">
+                <h1>Device Data Entry</h1>
+                <DeviceDataForm setElectricHeaters={setElectricHeaters} setInteriorAirSensors={setInteriorAirSensors} />
+              </div>
+              <div className="middle-section">
+                <InputDataCreator
+                  setJsonContent={handleJsonContentChange}
+                  electricHeaters={electricHeaters}
+                  interiorAirSensors={interiorAirSensors}
+                />
+                {jsonContent && (
+                  <div>
+                    <h2>Generated JSON:</h2>
+                    <pre>{JSON.stringify(jsonContent, null, 2)}</pre>
+                  </div>
+                )}
+              </div>
+              <div className="right-side">
+                <InputDataSender jsonContent={jsonContent} />
+              </div>
             </div>
-          )}
-        </div>
-        <div className="right-side">
-          <DeviceControl deviceControls={[]} /> {/* Pass an empty array if necessary */}
-          {/* Use InputDataSender component */}
-          <InputDataSender jsonContent={jsonContent} />
-        </div>
-      </div>
-    </div>
+          } />
+          <Route path="/data-table" element={
+            <DataTable 
+              electricHeaters={electricHeaters} 
+              interiorAirSensors={interiorAirSensors} 
+              deleteHeater={deleteHeater} 
+              deleteSensor={deleteSensor} 
+            />
+          } />
+        </Routes>
+      </Layout>
+    </Router>
   );
 }
 
