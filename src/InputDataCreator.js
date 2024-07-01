@@ -9,7 +9,7 @@ import generateScenariosData from './Input_Scenarios';
 import generateRiskData from './Input_Risk';
 import generateGenConstraintsData from './Input_GenConstraints';
 
-function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors, sendJsonData }) {
+function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors }) {
   const handleGenerateJSON = () => {
     const startDate = new Date();
     let startHour = startDate.getHours();
@@ -40,8 +40,8 @@ function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors,
         t: timestamps,
         dtf: 0.0,
         is_variable_dt: false,
-        variable_dt: [],
-        ts_format: ""
+        variable_dt: [], // Added for Rust Temporals structure compatibility
+        ts_format: "" // Added for Rust Temporals structure compatibility
       }
     };
 
@@ -56,7 +56,7 @@ function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors,
     const genConstraintsData = generateGenConstraintsData(interiorAirSensors);
 
     const reserveType = { reserve_type: {} };
-    const nodeDelay = { node_delay: {} };
+    const nodeDelay = { node_delay: [] }; // Correctly specifying it as an empty list
     const nodeHistories = { node_histories: {} };
     const inflowBlocks = { inflow_blocks: {} };
 
@@ -81,17 +81,10 @@ function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors,
     setJsonContent(jsonStr); // Set the JSON stringified version of the combinedData
   };
 
-  const handleSendData = () => {
-    if (sendJsonData) {
-      sendJsonData();
-    }
-  };
-
   return (
     <div>
       <h1>JSON Generator</h1>
       <button onClick={handleGenerateJSON}>Generate JSON</button>
-      <button onClick={handleSendData}>Send Data</button>
     </div>
   );
 }

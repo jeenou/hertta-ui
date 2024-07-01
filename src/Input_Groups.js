@@ -5,7 +5,7 @@ const generateGroupsData = (electricHeaters) => {
       groups: {
         p1: {
           name: "p1",
-          g_type: "process",
+          var_type: "process",
           members: electricHeaters.map(heater => heater.id)
         }
       }

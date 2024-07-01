@@ -16,7 +16,7 @@ const generateProcessesData = (electricHeaters) => {
       min_offline: 0.0,
       max_online: 0.0,
       max_offline: 0.0,
-      initial_state: 0.0,
+      initial_state: true,
       is_scenario_independent: false,
       topos: [
         {
@@ -29,7 +29,10 @@ const generateProcessesData = (electricHeaters) => {
           initial_load: 0.0,
           initial_flow: 0.0,
           cap_ts: {
-            ts_data: []
+            ts_data: [
+              { scenario: "s1", series: {} }, // Changed series to an empty map {}
+              { scenario: "s2", series: {} }  // Changed series to an empty map {}
+            ]
           }
         },
         {
@@ -42,7 +45,10 @@ const generateProcessesData = (electricHeaters) => {
           initial_load: 0.0,
           initial_flow: 0.0,
           cap_ts: {
-            ts_data: []
+            ts_data: [
+              { scenario: "s1", series: {} }, // Changed series to an empty map {}
+              { scenario: "s2", series: {} }  // Changed series to an empty map {}
+            ]
           }
         }
       ],

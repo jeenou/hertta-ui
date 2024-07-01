@@ -1,5 +1,3 @@
-// src/Input_Nodes.js
-
 const generateNodesData = (interiorAirSensors) => {
   const nodes = {
     outside: {
@@ -23,14 +21,14 @@ const generateNodesData = (interiorAirSensors) => {
       },
       cost: {
         ts_data: [
-          { scenario: "s1", series: [] },
-          { scenario: "s2", series: [] }
+          { scenario: "s1", series: {} },
+          { scenario: "s2", series: {} }
         ]
       },
       inflow: {
         ts_data: [
-          { scenario: "s1", series: [] },
-          { scenario: "s2", series: [] }
+          { scenario: "s1", series: {} },
+          { scenario: "s2", series: {} }
         ]
       }
     },
@@ -41,28 +39,17 @@ const generateNodesData = (interiorAirSensors) => {
       is_res: false,
       is_market: false,
       is_inflow: false,
-      state: {
-        in_max: 0.0,
-        out_max: 0.0,
-        state_loss_proportional: 0.0,
-        state_max: 0.0,
-        state_min: 0.0,
-        initial_state: 0.0,
-        is_scenario_independent: false,
-        is_temp: true,
-        t_e_conversion: 0.0,
-        residual_value: 0.0
-      },
+      state: null, // Represents Option::None in Rust
       cost: {
         ts_data: [
-          { scenario: "s1", series: [] },
-          { scenario: "s2", series: [] }
+          { scenario: "s1", series: {} },
+          { scenario: "s2", series: {} }
         ]
       },
       inflow: {
         ts_data: [
-          { scenario: "s1", series: [] },
-          { scenario: "s2", series: [] }
+          { scenario: "s1", series: {} },
+          { scenario: "s2", series: {} }
         ]
       }
     },
@@ -87,14 +74,14 @@ const generateNodesData = (interiorAirSensors) => {
       },
       cost: {
         ts_data: [
-          { scenario: "s1", series: [] },
-          { scenario: "s2", series: [] }
+          { scenario: "s1", series: {} },
+          { scenario: "s2", series: {} }
         ]
       },
       inflow: {
         ts_data: [
-          { scenario: "s1", series: [] },
-          { scenario: "s2", series: [] }
+          { scenario: "s1", series: {} },
+          { scenario: "s2", series: {} }
         ]
       }
     }
@@ -122,14 +109,14 @@ const generateNodesData = (interiorAirSensors) => {
       },
       cost: {
         ts_data: [
-          { scenario: "s1", series: [] },
-          { scenario: "s2", series: [] }
+          { scenario: "s1", series: {} },
+          { scenario: "s2", series: {} }
         ]
       },
       inflow: {
         ts_data: [
-          { scenario: "s1", series: [] },
-          { scenario: "s2", series: [] }
+          { scenario: "s1", series: {} },
+          { scenario: "s2", series: {} }
         ]
       }
     };
@@ -155,14 +142,14 @@ const generateNodesData = (interiorAirSensors) => {
       },
       cost: {
         ts_data: [
-          { scenario: "s1", series: [] },
-          { scenario: "s2", series: [] }
+          { scenario: "s1", series: {} },
+          { scenario: "s2", series: {} }
         ]
       },
       inflow: {
         ts_data: [
-          { scenario: "s1", series: [] },
-          { scenario: "s2", series: [] }
+          { scenario: "s1", series: {} },
+          { scenario: "s2", series: {} }
         ]
       }
     };
