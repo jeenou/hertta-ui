@@ -7,12 +7,12 @@ import InputDataCreator from './InputDataCreator';
 import InputDataSender from './InputDataSender'; // Import the sender component
 
 function App() {
-  const [jsonContent, setJsonContent] = useState('');
+  const [jsonContent, setJsonContent] = useState({});
   const [electricHeaters, setElectricHeaters] = useState([]);
   const [interiorAirSensors, setInteriorAirSensors] = useState([]);
 
-  const handleJsonContentChange = async (jsonString) => {
-    setJsonContent(jsonString);
+  const handleJsonContentChange = async (jsonObj) => {
+    setJsonContent(jsonObj);
   };
 
   return (
@@ -33,7 +33,7 @@ function App() {
           {jsonContent && (
             <div>
               <h2>Generated JSON:</h2>
-              <pre>{jsonContent}</pre>
+              <pre>{JSON.stringify(jsonContent, null, 2)}</pre>
             </div>
           )}
         </div>

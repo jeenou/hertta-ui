@@ -1,4 +1,4 @@
-const generateNodeDiffusions = (interiorAirSensors) => {
+const generateNodeDiffusions = (interiorAirSensors, timestamps) => {
   const frac_windows = 0.1;
   const hight_wall = 3.0;
   const cond_env_int = 0.04; // Example value for conductivity between environment and interior
@@ -27,39 +27,42 @@ const generateNodeDiffusions = (interiorAirSensors) => {
 
     const diff_soil_env = surf_area_floor * cond_soil_env;
 
+    const createSeries = (value) => {
+      return timestamps.reduce((series, timestamp) => {
+        series[timestamp] = value;
+        return series;
+      }, {});
+    };
+
     acc.push({
       coefficient: {
-        type: "TimeSeriesData", // Assuming this is how Rust expects it
-        data: [{
-          timestamp: new Date().toISOString(),
-          value: diff_env_int
-        }]
+        ts_data: [
+          { scenario: "s1", series: createSeries(diff_env_int) },
+          { scenario: "s2", series: createSeries(diff_env_int) }
+        ]
       },
-      name: `diffusion_${index * 3 + 1}`,
       node1: sensor.sensorId,
       node2: sensor.roomId
     });
+
     acc.push({
       coefficient: {
-        type: "TimeSeriesData", // Assuming this is how Rust expects it
-        data: [{
-          timestamp: new Date().toISOString(),
-          value: diff_ext_env
-        }]
+        ts_data: [
+          { scenario: "s1", series: createSeries(diff_ext_env) },
+          { scenario: "s2", series: createSeries(diff_ext_env) }
+        ]
       },
-      name: `diffusion_${index * 3 + 2}`,
       node1: sensor.roomId,
       node2: "outside"
     });
+
     acc.push({
       coefficient: {
-        type: "TimeSeriesData", // Assuming this is how Rust expects it
-        data: [{
-          timestamp: new Date().toISOString(),
-          value: diff_soil_env
-        }]
+        ts_data: [
+          { scenario: "s1", series: createSeries(diff_soil_env) },
+          { scenario: "s2", series: createSeries(diff_soil_env) }
+        ]
       },
-      name: `diffusion_${index * 3 + 3}`,
       node1: sensor.roomId,
       node2: "soil"
     });
@@ -67,7 +70,7 @@ const generateNodeDiffusions = (interiorAirSensors) => {
     return acc;
   }, []);
 
-  return diffusions;
+  return { node_diffusion: diffusions };
 };
 
 export default generateNodeDiffusions;

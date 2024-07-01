@@ -30,8 +30,8 @@ const generateProcessesData = (electricHeaters) => {
           initial_flow: 0.0,
           cap_ts: {
             ts_data: [
-              { scenario: "s1", series: {} }, // Changed series to an empty map {}
-              { scenario: "s2", series: {} }  // Changed series to an empty map {}
+              { scenario: "s1", series: {} },
+              { scenario: "s2", series: {} }
             ]
           }
         },
@@ -46,17 +46,23 @@ const generateProcessesData = (electricHeaters) => {
           initial_flow: 0.0,
           cap_ts: {
             ts_data: [
-              { scenario: "s1", series: {} }, // Changed series to an empty map {}
-              { scenario: "s2", series: {} }  // Changed series to an empty map {}
+              { scenario: "s1", series: {} },
+              { scenario: "s2", series: {} }
             ]
           }
         }
       ],
       cf: {
-        ts_data: []
+        ts_data: [
+          { scenario: "s1", series: {} },
+          { scenario: "s2", series: {} }
+        ]
       },
       eff_ts: {
-        ts_data: []
+        ts_data: [
+          { scenario: "s1", series: {} },
+          { scenario: "s2", series: {} }
+        ]
       },
       eff_ops: [],
       eff_fun: []

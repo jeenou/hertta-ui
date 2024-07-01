@@ -1,7 +1,5 @@
 // src/Input_SetupData.js
 
-import React from 'react';
-
 function Input_SetupData() {
   const setupData = {
     setup: {
@@ -18,7 +16,9 @@ function Input_SetupData() {
       common_timesteps: 0,
       common_scenario_name: "common scenario",
       use_node_dummy_variables: true,
-      use_ramp_dummy_variables: true
+      use_ramp_dummy_variables: true,
+      node_dummy_variable_cost: 0.0, // Added field
+      ramp_dummy_variable_cost: 0.0  // Added field
     }
   };
 

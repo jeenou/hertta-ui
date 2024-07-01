@@ -8,6 +8,7 @@ import generateGroupsData from './Input_Groups';
 import generateScenariosData from './Input_Scenarios';
 import generateRiskData from './Input_Risk';
 import generateGenConstraintsData from './Input_GenConstraints';
+import generateBidSlotsData from './Input_BidSlots';
 
 function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors }) {
   const handleGenerateJSON = () => {
@@ -26,13 +27,7 @@ function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors 
       newDate.setHours(startHour + i);
       newDate.setMinutes(0);
       newDate.setSeconds(0);
-      timestamps.push(newDate.toLocaleString('de-DE', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-      }));
+      timestamps.push(newDate.toISOString());
     }
 
     const temporalsData = {
@@ -48,12 +43,13 @@ function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors 
     const setupData = Input_SetupData();
     const processesData = electricHeaters.length > 0 ? { processes: generateProcessesData(electricHeaters) } : {};
     const nodesData = { nodes: generateNodesData(interiorAirSensors) };
-    const nodeDiffusionsData = { node_diffusion: generateNodeDiffusions(interiorAirSensors) };
+    const nodeDiffusionsData = generateNodeDiffusions(interiorAirSensors, timestamps);
     const marketData = generateMarketData();
     const groupsData = generateGroupsData(electricHeaters);
     const scenariosData = generateScenariosData();
     const riskData = generateRiskData();
     const genConstraintsData = generateGenConstraintsData(interiorAirSensors);
+    const bidSlotsData = generateBidSlotsData();
 
     const reserveType = { reserve_type: {} };
     const nodeDelay = { node_delay: [] }; // Correctly specifying it as an empty list
@@ -71,14 +67,15 @@ function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors 
       ...scenariosData,
       ...riskData,
       ...genConstraintsData,
+      ...bidSlotsData,
       ...reserveType,
       ...nodeDelay,
       ...nodeHistories,
       ...inflowBlocks
     };
 
-    const jsonStr = JSON.stringify(combinedData, null, 2);
-    setJsonContent(jsonStr); // Set the JSON stringified version of the combinedData
+    console.log(JSON.stringify(combinedData, null, 2)); // Log the generated JSON to debug
+    setJsonContent(combinedData); // Set the JSON object instead of stringified JSON
   };
 
   return (

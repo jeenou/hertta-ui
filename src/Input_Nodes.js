@@ -2,6 +2,7 @@ const generateNodesData = (interiorAirSensors) => {
   const nodes = {
     outside: {
       name: "outside",
+      groups: [], // Include an empty array for groups
       is_commodity: false,
       is_state: true,
       is_res: false,
@@ -34,6 +35,7 @@ const generateNodesData = (interiorAirSensors) => {
     },
     electricitygrid: {
       name: "electricitygrid",
+      groups: [], // Include an empty array for groups
       is_commodity: false,
       is_state: false,
       is_res: false,
@@ -55,6 +57,7 @@ const generateNodesData = (interiorAirSensors) => {
     },
     soil: {
       name: "soil",
+      groups: [], // Include an empty array for groups
       is_commodity: false,
       is_state: true,
       is_res: false,
@@ -90,6 +93,7 @@ const generateNodesData = (interiorAirSensors) => {
   interiorAirSensors.forEach(sensor => {
     nodes[sensor.sensorId] = {
       name: sensor.sensorId,
+      groups: [], // Include an empty array for groups
       is_commodity: false,
       is_state: true,
       is_res: false,
@@ -123,6 +127,7 @@ const generateNodesData = (interiorAirSensors) => {
 
     nodes[sensor.roomId] = {
       name: sensor.roomId,
+      groups: [], // Include an empty array for groups
       is_commodity: false,
       is_state: true,
       is_res: false,

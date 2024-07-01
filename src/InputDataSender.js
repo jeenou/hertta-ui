@@ -8,12 +8,12 @@ function InputDataSender({ jsonContent }) {
         return;
       }
 
-      const response = await fetch('http://localhost:5551/process_json', {
+      const response = await fetch('http://localhost:8000/process_json', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: jsonContent,
+        body: JSON.stringify(jsonContent), // Ensure jsonContent is stringified here
       });
 
       if (response.ok) {
