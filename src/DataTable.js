@@ -1,5 +1,3 @@
-// src/DataTable.js
-
 import React from 'react';
 import './DataTable.css'; // Ensure this file exists in the src directory
 

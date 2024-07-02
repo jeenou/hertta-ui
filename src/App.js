@@ -1,6 +1,4 @@
-// src/App.js
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './global.css';
 import './App.css';
@@ -14,6 +12,47 @@ function App() {
   const [jsonContent, setJsonContent] = useState({});
   const [electricHeaters, setElectricHeaters] = useState([]);
   const [interiorAirSensors, setInteriorAirSensors] = useState([]);
+
+  useEffect(() => {
+    const defaultSensors = [
+      {
+        sensorId: 'sensor1',
+        roomId: 'room1',
+        roomWidth: 5,
+        roomLength: 4,
+        maxTemp: 298.15,
+        minTemp: 288.15,
+        t_e_conversion_int: 1,
+        t_e_conversion_env: 1
+      },
+      {
+        sensorId: 'sensor2',
+        roomId: 'room2',
+        roomWidth: 6,
+        roomLength: 5,
+        maxTemp: 299.15,
+        minTemp: 289.15,
+        t_e_conversion_int: 1,
+        t_e_conversion_env: 1
+      }
+    ];
+
+    const defaultHeaters = [
+      {
+        id: 'heater1',
+        capacity: 2,
+        roomId: 'room1'
+      },
+      {
+        id: 'heater2',
+        capacity: 3,
+        roomId: 'room2'
+      }
+    ];
+
+    setElectricHeaters(defaultHeaters);
+    setInteriorAirSensors(defaultSensors);
+  }, []);
 
   const handleJsonContentChange = async (jsonObj) => {
     setJsonContent(jsonObj);
@@ -37,7 +76,12 @@ function App() {
             <div className="app-container">
               <div className="left-side">
                 <h1>Device Data Entry</h1>
-                <DeviceDataForm setElectricHeaters={setElectricHeaters} setInteriorAirSensors={setInteriorAirSensors} />
+                <DeviceDataForm 
+                  electricHeaters={electricHeaters} 
+                  setElectricHeaters={setElectricHeaters} 
+                  interiorAirSensors={interiorAirSensors} 
+                  setInteriorAirSensors={setInteriorAirSensors} 
+                />
               </div>
               <div className="middle-section">
                 <InputDataCreator
