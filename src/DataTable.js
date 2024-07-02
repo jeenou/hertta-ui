@@ -1,5 +1,5 @@
 import React from 'react';
-import './DataTable.css'; // Ensure this file exists in the src directory
+import './DataTable.css';
 
 function DataTable({ electricHeaters, interiorAirSensors, deleteHeater, deleteSensor }) {
   return (

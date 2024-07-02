@@ -5,9 +5,9 @@ import './App.css';
 import DeviceDataForm from './DeviceDataForm';
 import DataTable from './DataTable';
 import DeviceCards from './DeviceCards';
-import InputDataCreator from './InputDataCreator';
 import InputDataSender from './InputDataSender';
 import Layout from './Layout';
+import generateJsonContent from './generateJsonContent'; // Import the JSON generation function
 
 function App() {
   const [jsonContent, setJsonContent] = useState({});
@@ -62,9 +62,9 @@ function App() {
     setActiveDevices(initialActiveDevices);
   }, []);
 
-  const handleJsonContentChange = async (jsonObj) => {
-    setJsonContent(jsonObj);
-  };
+  useEffect(() => {
+    setJsonContent(generateJsonContent(electricHeaters, interiorAirSensors, activeDevices));
+  }, [electricHeaters, interiorAirSensors, activeDevices]);
 
   const deleteHeater = (id) => {
     const updatedHeaters = electricHeaters.filter(heater => heater.id !== id);
@@ -99,18 +99,10 @@ function App() {
                 />
               </div>
               <div className="middle-section">
-                <InputDataCreator
-                  setJsonContent={handleJsonContentChange}
-                  electricHeaters={electricHeaters}
-                  interiorAirSensors={interiorAirSensors}
-                  activeDevices={activeDevices}
-                />
-                {jsonContent && (
-                  <div>
-                    <h2>Generated JSON:</h2>
-                    <pre>{JSON.stringify(jsonContent, null, 2)}</pre>
-                  </div>
-                )}
+                <div>
+                  <h2>Generated JSON:</h2>
+                  <pre>{JSON.stringify(jsonContent, null, 2)}</pre>
+                </div>
               </div>
               <div className="right-side">
                 <InputDataSender jsonContent={jsonContent} />
