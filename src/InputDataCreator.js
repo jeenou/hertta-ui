@@ -1,5 +1,3 @@
-// src/InputDataCreator.js
-
 import React from 'react';
 import Input_SetupData from './Input_SetupData';
 import generateProcessesData from './Input_Processes';
@@ -12,7 +10,7 @@ import generateRiskData from './Input_Risk';
 import generateGenConstraintsData from './Input_GenConstraints';
 import generateBidSlotsData from './Input_BidSlots';
 
-function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors }) {
+function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors, activeDevices }) {
   const handleGenerateJSON = () => {
     const startDate = new Date();
     let startHour = startDate.getHours();
@@ -43,14 +41,16 @@ function InputDataCreator({ setJsonContent, electricHeaters, interiorAirSensors 
     };
 
     const setupData = Input_SetupData();
-    const processesData = electricHeaters.length > 0 ? { processes: generateProcessesData(electricHeaters) } : {};
-    const nodesData = { nodes: generateNodesData(interiorAirSensors) };
-    const nodeDiffusionsData = generateNodeDiffusions(interiorAirSensors, timestamps);
+    const activeHeaters = electricHeaters.filter(heater => activeDevices[heater.id]);
+    const activeSensors = interiorAirSensors.filter(sensor => activeDevices[sensor.sensorId]);
+    const processesData = activeHeaters.length > 0 ? { processes: generateProcessesData(activeHeaters) } : {};
+    const nodesData = { nodes: generateNodesData(activeSensors) };
+    const nodeDiffusionsData = generateNodeDiffusions(activeSensors, timestamps);
     const marketData = generateMarketData();
-    const groupsData = generateGroupsData(electricHeaters);
+    const groupsData = generateGroupsData(activeHeaters);
     const scenariosData = generateScenariosData();
     const riskData = generateRiskData();
-    const genConstraintsData = generateGenConstraintsData(interiorAirSensors);
+    const genConstraintsData = generateGenConstraintsData(activeSensors);
     const bidSlotsData = generateBidSlotsData();
 
     const reserveType = { reserve_type: {} };
