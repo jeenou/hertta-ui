@@ -1,0 +1,18 @@
+{
+    "name": "Hertta UI",
+    "version": "1.0",
+    "slug": "hertta_ui",
+    "description": "A Home Assistant add-on for Hertta UI",
+    "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+    "startup": "application",
+    "boot": "auto",
+    "options": {},
+    "schema": {},
+    "ports": {
+      "80/tcp": 80
+    },
+    "webui": "http://[HOST]:[PORT:80]",
+    "host_network": true,
+    "map": ["config:rw", "ssl:rw", "addons:rw", "backup:rw", "share:rw"]
+  }
+  
