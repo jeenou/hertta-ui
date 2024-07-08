@@ -1,0 +1,18 @@
+# Rocket.toml
+[global]
+# Global settings apply to all environments unless specifically overridden.
+
+[development]
+port = 5500
+address = "127.0.0.1"
+log_level = "debug"
+
+[staging]
+port = 8080
+address = "0.0.0.0"
+log_level = "normal"
+
+[production]
+port = 80
+address = "0.0.0.0"
+log_level = "critical"
