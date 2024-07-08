@@ -1,15 +1,16 @@
+# Stage 1: Frontend Builder
 FROM node:14 AS frontend-builder
 
 # Set working directory
 WORKDIR /frontend
 
 # Copy frontend source code
-COPY frontend/package.json frontend/yarn.lock ./
+COPY frontend/package.json frontend/package-lock.json ./
 COPY frontend/public ./public
 COPY frontend/src ./src
 
-# Install dependencies and build the React app
-RUN yarn install && yarn build
+# Install dependencies using npm
+RUN npm install && npm run build
 
 # Stage 2: Build the Rust backend
 FROM rust:1.56 AS backend-builder
