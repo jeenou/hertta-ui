@@ -1,18 +1,24 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+/node_modules/
 /.pnp
 .pnp.js
 
 # testing
-/coverage
+/coverage/
 
 # production
-/build
-/dist
+/build/
+/dist/
 
-# misc
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS-specific files
 .DS_Store
 Thumbs.db
 
@@ -23,18 +29,23 @@ Thumbs.db
 .env.test.local
 .env.production.local
 
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-*.log
+# Rust-specific
+/target/
+/Cargo.lock
 
-# IDE specific files
+# Executable files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Executable files for OS X
+*.out
+
+# Miscellaneous
 .idea/
 .vscode/
 *.sublime-project
 *.sublime-workspace
-
-# Temporary files
-*.tmp
-*.swp
+*.rs.bk
